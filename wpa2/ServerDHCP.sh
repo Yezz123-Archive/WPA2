@@ -1,10 +1,10 @@
 #!/bin/bash
 if [ $# -ne 2 ]; then
-    echo "Usage: initDhcp.sh <inputIface> <outputIface>"
+	echo "Usage: initDhcp.sh <inputIface> <outputIface>"
 	echo
 	echo -e "\tinputIface - Interface upon which DHCP leases should be offered."
 	echo -e "\toutputIfave - Interface offering access to WAN (default gateway)"
-    exit 1
+	exit 1
 fi
 
 INP=$1
@@ -14,8 +14,8 @@ ifconfig $INP up 10.0.0.1 netmask 255.255.255.0
 sleep 2
 
 if [ "$(ps -e | grep dhcpd)" == "" ]; then
-echo "[+] Started DHCP server."
-dhcpd $INP &
+	echo "[+] Started DHCP server."
+	dhcpd $INP &
 fi
 
 #Nat
